@@ -1,14 +1,23 @@
 <?php
 /**
+ * @package Net_SMS
+ */
+
+/**
+ * HTTP_Request class.
+ */
+include_once 'HTTP/Request.php';
+
+/**
  * Net_SMS_sms2email_http Class implements the HTTP API for accessing the
  * sms2email (www.sms2email.com) SMS gateway.
  *
- * Copyright 2003-2006 Marko Djukic <marko@oblo.com>
+ * Copyright 2003-2009 The Horde Project (http://www.horde.org/)
  *
- * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  *
- * $Horde: framework/Net_SMS/SMS/sms2email_http.php,v 1.33 2006/01/01 21:10:07 jan Exp $
+ * $Horde: framework/Net_SMS/SMS/sms2email_http.php,v 1.41 2008/01/02 11:12:11 jan Exp $
  *
  * @author Marko Djukic <marko@oblo.com>
  * @package Net_SMS
@@ -46,12 +55,12 @@ class Net_SMS_sms2email_http extends Net_SMS {
      *
      * @param array $message  The array containing the message and its send
      *                        parameters.
-     * @param string $to      The destination string.
+     * @param array $to       The recipients.
      *
      * @return array  An array with the success status and additional
      *                information.
      */
-    function _send(&$message, $to)
+    function _send($message, $to)
     {
         /* Set up the sending url. */
         $url = sprintf('postmsg.php?username=%s&password=%s&message=%s',
@@ -511,10 +520,10 @@ class Net_SMS_sms2email_http extends Net_SMS {
      */
     function getInfo()
     {
-        $info['name'] = _("sms2email via HTTP");
-        $info['desc'] = _("This driver allows sending of messages through the sms2email (http://sms2email.com) gateway, using the HTTP API");
-
-        return $info;
+        return array(
+            'name' => _("sms2email via HTTP"),
+            'desc' => _("This driver allows sending of messages through the sms2email (http://sms2email.com) gateway, using the HTTP API"),
+        );
     }
 
     /**
@@ -564,10 +573,10 @@ class Net_SMS_sms2email_http extends Net_SMS {
             'type' => 'enum',
             'params' => array(array('now' => _("immediate"), 'user' => _("user select"))));
 
-        $types = array('SMS_TEXT' => 'SMS_TEXT', 'SMS_FLASH' => 'SMS_FLASH');
+        $types = array('SMS_TEXT' => _("Standard"), 'SMS_FLASH' => _("Flash"));
         $params['msg_type'] = array(
             'label' => _("Message type"),
-            'type' => 'multienum',
+            'type' => 'keyval_multienum',
             'params' => array($types));
 
         return $params;
@@ -668,10 +677,7 @@ class Net_SMS_sms2email_http extends Net_SMS {
 
         $url = (empty($this->_params['ssl']) ? 'http://' : 'https://') . $this->_base_url . $url;
 
-        if (!@include_once 'HTTP/Request.php') {
-            return PEAR::raiseError(_("Missing PEAR package HTTP_Request."));
-        }
-        $http = &new HTTP_Request($url, $options);
+        $http = new HTTP_Request($url, $options);
         @$http->sendRequest();
         if ($http->getResponseCode() != 200) {
             return PEAR::raiseError(sprintf(_("Could not open %s."), $url));

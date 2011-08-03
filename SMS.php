@@ -5,12 +5,12 @@ require_once 'PEAR.php';
 /**
  * Net_SMS Class
  *
- * Copyright 2003-2006 Marko Djukic <marko@oblo.com>
+ * Copyright 2003-2009 The Horde Project (http://www.horde.org/)
  *
- * See the enclosed file COPYING for license information (LGPL). If you did
- * not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  *
- * $Horde: framework/Net_SMS/SMS.php,v 1.19 2006/01/01 21:10:07 jan Exp $
+ * $Horde: framework/Net_SMS/SMS.php,v 1.25 2009/01/06 17:49:34 jan Exp $
  *
  * @author  Marko Djukic <marko@oblo.com>
  * @package Net_SMS
@@ -179,7 +179,7 @@ class Net_SMS {
      *
      * @return mixed  True on success or PEAR Error on failure.
      */
-    function send(&$message)
+    function send($message)
     {
         /* Authenticate. */
         if (is_a($this->authenticate(), 'PEAR_Error')) {
@@ -289,7 +289,7 @@ class Net_SMS {
         include_once 'Net/SMS/' . $driver . '.php';
         $class = 'Net_SMS_' . $driver;
         if (class_exists($class)) {
-            $sms = &new $class($params);
+            $sms = new $class($params);
         } else {
             $sms = PEAR::raiseError(sprintf(_("Class definition of %s not found."), $driver));
         }
