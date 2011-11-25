@@ -6,7 +6,7 @@
 /**
  * HTTP_Request class.
  */
-require_once 'HTTP/Request.php';
+require_once 'HTTP/Request2.php';
 
 /**
  * Net_SMS_win_http Class implements the HTTP API for accessing the WIN
@@ -28,18 +28,18 @@ class Net_SMS_win_http extends Net_SMS {
 
     protected $request;
 
-    public function __construct($params = null, HTTP_Request $request = null)
+    public function __construct($params = null, HTTP_Request2 $request = null)
     {
         parent::__construct($params);
         /** @todo Shift to factory */
         if (empty($request)) {
-            $request = new HTTP_Request();
+            $request = new HTTP_Request2();
         }
         $this->setRequest($request);
 
     }
 
-    public function setRequest(HTTP_Request $request) {
+    public function setRequest(HTTP_Request2 $request) {
         $this->request = $request;
     }
 
@@ -264,27 +264,29 @@ class Net_SMS_win_http extends Net_SMS {
      */
     protected function _post($xml)
     {
-        $options['method'] = 'POST';
-        $options['timeout'] = 5;
-        $options['allowRedirects'] = true;
+        /** @todo Shift to factory */
+        $this->request->setMethod('POST');
+        $this->request->setConfig('timeout', 5);
+        $this->request->setConfig('follow_redirects', true);
 
         /* Wrap the xml with the standard tags. */
         $xml = '<?xml version="1.0" standalone="no"?><!DOCTYPE WIN_DELIVERY_2_SMS SYSTEM "winbound_messages_v1.dtd"><WIN_DELIVERY_2_SMS>' . $xml . '</WIN_DELIVERY_2_SMS>';
 
-        $http = new HTTP_Request($this->_base_url, $options);
+        $this->request->setURL($this->_base_url);
+        $this->request->setOptions($options);
 
         /* Add the authentication values to POST. */
-        $http->addPostData('User', $this->_params['user']);
-        $http->addPostData('Password', $this->_params['password']);
+        $this->request->addPostParameter('User', $this->_params['user']);
+        $this->request->addPostParameter('Password', $this->_params['password']);
 
         /* Add the XML and send the request. */
-        $http->addPostData('WIN_XML', $xml);
-        @$http->sendRequest();
-        if ($http->getResponseCode() != 200) {
+        $this->request->addPostParameter('WIN_XML', $xml);
+        $response = $this->request->send();
+        if ($response->getStatus() != 200) {
             throw new Net_SMS_Exception(sprintf(_("Could not open %s."), $this->_base_url));
         }
 
-        return $http->getResponseBody();
+        return $response->getBody();
     }
 
 }
