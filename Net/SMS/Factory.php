@@ -25,4 +25,76 @@ class Net_SMS_Factory {
 
         return $sms;
     }
+
+    /**
+     * Returns information on a gateway, such as name and a brief description,
+     * from the driver subclass getInfo() function.
+     *
+     * @return array  An array of extra information.
+     */
+    public static function getGatewayInfo($gateway)
+    {
+        static $info = array();
+        if (isset($info[$gateway])) {
+            return $info[$gateway];
+        }
+
+        require_once 'Net/SMS/' . $gateway . '.php';
+        $class = 'Net_SMS_' . $gateway;
+        $info[$gateway] = call_user_func(array($class, 'getInfo'));
+
+        return $info[$gateway];
+    }
+
+    /**
+     * Returns parameters for a gateway from the driver subclass getParams()
+     * function.
+     *
+     * @param string  The name of the gateway driver for which to return the
+     *                parameters.
+     *
+     * @return array  An array of extra information.
+     */
+    public static function getGatewayParams($gateway)
+    {
+        static $params = array();
+        if (isset($params[$gateway])) {
+            return $params[$gateway];
+        }
+
+        require_once 'Net/SMS/' . $gateway . '.php';
+        $class = 'Net_SMS_' . $gateway;
+        $params[$gateway] = call_user_func(array($class, 'getParams'));
+
+        return $params[$gateway];
+    }
+
+    /**
+     * Returns a list of available gateway drivers.
+     *
+     * @return array  An array of available drivers.
+     */
+    public static function getDrivers()
+    {
+        static $drivers = array();
+        if (!empty($drivers)) {
+            return $drivers;
+        }
+
+        $drivers = array();
+
+        if ($driver_dir = opendir(dirname(__FILE__) . '/SMS/')) {
+            while (false !== ($file = readdir($driver_dir))) {
+                /* Hide dot files and non .php files. */
+                if (substr($file, 0, 1) != '.' && substr($file, -4) == '.php') {
+                    $driver = substr($file, 0, -4);
+                    $driver_info = Net_SMS_Factory::getGatewayInfo($driver);
+                    $drivers[$driver] = $driver_info['name'];
+                }
+            }
+            closedir($driver_dir);
+        }
+
+        return $drivers;
+    }
 }
