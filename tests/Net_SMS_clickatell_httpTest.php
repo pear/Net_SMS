@@ -9,6 +9,10 @@ class Net_SMS_clickatell_httpTest extends PHPUnit_Framework_TestCase {
         $request = new HTTP_Request2();
         $driver = new Net_SMS_clickatell_http(null, $request);
 
-        $driver->send(null);
+        $driver->send(array(
+            'id' => 0,
+            'to' => array(), 
+            'text' => 'hi'
+        ));
     }
 }

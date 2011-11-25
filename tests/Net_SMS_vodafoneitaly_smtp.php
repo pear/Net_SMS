@@ -8,6 +8,10 @@ class Net_SMS_vodafoneitaly_smtpTest extends PHPUnit_Framework_TestCase {
     public function test() {
         $driver = new Net_SMS_vodafoneitaly_smtp();
 
-        $driver->send(null);
+        $driver->send(array(
+            'id' => 0,
+            'to' => array(), 
+            'text' => 'hi'
+        ));
     }
 }

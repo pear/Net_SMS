@@ -52,7 +52,7 @@ class Net_SMS_vodafoneitaly_smtp extends Net_SMS {
      * @return array  An array with the success status and additional
      *                information.
      */
-    function _send($message, $to)
+    protected function _send($message, $to)
     {
         /* Since this only works for Italian numbers, this is hardcoded. */
         if (preg_match('/^.*?<?(\+?39)?(\d{10})>?/', $to, $matches)) {

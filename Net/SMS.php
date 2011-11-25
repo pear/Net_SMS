@@ -83,8 +83,24 @@ class Net_SMS {
      *
      * @return mixed  True on success or PEAR Error on failure.
      */
-    function send($message)
+    public function send($message)
     {
+        if (!is_array($message)) {
+            throw new InvalidArgumentException("Parameter message is expected to be an array/hash");
+        }
+
+        if (!isset($message['id'])) {
+            throw new InvalidArgumentException("Please specify message id, ie: array('id' => 1)");
+        }
+
+        if (!isset($message['to'])) {
+            throw new InvalidArgumentException("Please specify an array of recipients, ie: array('to' => array('phone1', 'phone2'))");
+        }
+
+        if (!isset($message['text'])) {
+            throw new InvalidArgumentException("Please specify message text, ie: array('text' => 'Hi!')");
+        }
+
         /* Authenticate. */
         if (is_a($this->authenticate(), 'PEAR_Error')) {
             return $this->_auth;
@@ -128,27 +144,29 @@ class Net_SMS {
                                      'error'      => $error);
                 }
             }
-        } else {
-            /* No batch sending available, just loop through all recipients
-             * and send a message for each one. */
-            foreach ($message['to'] as $recipient) {
-                $response = $this->_send($message, $recipient);
-                if ($response[0] == 1) {
-                    /* Message was sent, store remote id if any. */
-                    $remote_id = (isset($response[1]) ? $response[1] : null);
-                    $error = null;
-                } else {
-                    /* Message failed, store error code. */
-                    $remote_id = null;
-                    $error = $response[1];
-                }
 
-                /* Store the sends. */
-                $sends[] = array('message_id' => $message['id'],
-                                 'remote_id'  => $remote_id,
-                                 'recipient'  => $recipient,
-                                 'error'      => $error);
+            return $sends;
+        }
+
+        /* No batch sending available, just loop through all recipients
+         * and send a message for each one. */
+        foreach ($message['to'] as $recipient) {
+            $response = $this->_send($message, $recipient);
+            if ($response[0] == 1) {
+                /* Message was sent, store remote id if any. */
+                $remote_id = (isset($response[1]) ? $response[1] : null);
+                $error = null;
+            } else {
+                /* Message failed, store error code. */
+                $remote_id = null;
+                $error = $response[1];
             }
+
+            /* Store the sends. */
+            $sends[] = array('message_id' => $message['id'],
+                             'remote_id'  => $remote_id,
+                             'recipient'  => $recipient,
+                             'error'      => $error);
         }
 
         return $sends;
