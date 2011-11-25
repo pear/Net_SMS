@@ -160,14 +160,14 @@ class Net_SMS_generic_smpp extends Net_SMS {
      */
     function _authenticate()
     {
-        if ($this->_client->state == NET_SMPP_CLIENT_STATE_CLOSED) {
+        if ($this->_client->state == Net_SMPP_Client::STATE_CLOSED) {
             $res = $this->_client->connect();
             if ($res === false) {
                 return false;
             }
         }
 
-        if ($this->_client->state == NET_SMPP_CLIENT_STATE_OPEN) {
+        if ($this->_client->state == Net_SMPP_Client::STATE_OPEN) {
             $resp = $this->_client->bind($this->_params['bindParams']);
             if ($resp === false || (is_object($resp) && $resp->isError())) {
                 return false;
