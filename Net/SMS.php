@@ -1,6 +1,7 @@
 <?php
 
 require_once 'PEAR.php';
+require_once 'Net/SMS/Exception.php';
 
 /**
  * Net_SMS Class
