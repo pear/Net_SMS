@@ -37,32 +37,6 @@ class Net_SMS {
     }
 
     /**
-     * Returns send parameters for a gateway from the driver subclass
-     * getDefaultSendParams()function. These are parameters which are available
-     * to the user during sending, such as setting a time for delivery, or type
-     * of SMS (normal text or flash), or source address, etc.
-     *
-     * @param string  The name of the gateway driver for which to return the
-     *                send parameters.
-     *
-     * @return array  An array of available send parameters.
-     */
-    function getDefaultSendParams($gateway)
-    {
-        static $params = array();
-        if (isset($params[$gateway])) {
-            return $params[$gateway];
-        }
-
-        /** @todo Remove static behaviours */
-        require_once 'Net/SMS/' . $gateway . '.php';
-        $class = 'Net_SMS_' . $gateway;
-        $params[$gateway] = call_user_func(array($class, 'getDefaultSendParams'));
-
-        return $params[$gateway];
-    }
-
-    /**
      * Query the current Gateway object to find out if it supports the given
      * capability.
      *
