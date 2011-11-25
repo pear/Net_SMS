@@ -53,7 +53,7 @@
  <dependencies>
   <required>
    <php>
-    <min>4.2.0</min>
+    <min>5.2.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0b1</min>
@@ -64,7 +64,7 @@
   </required>
   <optional>
    <package>
-    <name>HTTP_Request</name>
+    <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
    </package>
    <package>
@@ -74,6 +74,7 @@
    <package>
     <name>Net_SMPP_Client</name>
     <channel>pear.php.net</channel>
+    <min>0.4.0</min>
    </package>
   </optional>
  </dependencies>
