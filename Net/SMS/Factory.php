@@ -1,4 +1,6 @@
 <?php
+require_once 'Net/SMS/Exception.php';
+
 class Net_SMS_Factory {
 
     /**
@@ -20,7 +22,7 @@ class Net_SMS_Factory {
         if (class_exists($class)) {
             $sms = new $class($params);
         } else {
-            $sms = PEAR::raiseError(sprintf(_("Class definition of %s not found."), $driver));
+            throw new Net_SMS_Exception(sprintf(_("Class definition of %s not found."), $driver));
         }
 
         return $sms;
