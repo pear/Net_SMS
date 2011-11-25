@@ -176,5 +176,5 @@ class Net_SMS {
         }
     }
 
-
+    protected function _send() {}
 }
