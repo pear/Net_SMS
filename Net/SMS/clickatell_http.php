@@ -7,6 +7,7 @@
  * HTTP_Request class.
  */
 require_once 'HTTP/Request2.php';
+require_once 'Net/SMS.php';
 
 /**
  * Net_SMS_clickatell_http Class implements the HTTP API for accessing the
@@ -19,6 +20,7 @@ require_once 'HTTP/Request2.php';
  *
  * $Horde: framework/Net_SMS/SMS/clickatell_http.php,v 1.29 2008/01/02 11:12:11 jan Exp $
  *
+ * @see http://www.clickatell.com/developers/api_http.php
  * @author Marko Djukic <marko@oblo.com>
  * @package Net_SMS
  */
@@ -367,7 +369,7 @@ class Net_SMS_clickatell_http extends Net_SMS {
 
         $response = $this->request->send();
         if ($response->getStatus() != 200) {
-            throw new Net_URL_Exception(sprintf(_("Could not open %s."), $url));
+            throw new Net_SMS_Exception(sprintf(_("Could not open %s."), $url));
         }
 
         return $response->getBody();
