@@ -6,7 +6,7 @@
 /**
  * HTTP_Request class.
  */
-require_once 'HTTP/Request.php';
+require_once 'HTTP/Request2.php';
 
 /**
  * Net_SMS_clickatell_http Class implements the HTTP API for accessing the
@@ -29,18 +29,18 @@ class Net_SMS_clickatell_http extends Net_SMS {
 
     protected $request;
 
-    public function __construct($params = null, HTTP_Request $request = null)
+    public function __construct($params = null, HTTP_Request2 $request = null)
     {
         parent::__construct($params);
         /** @todo Shift to factory */
         if (empty($request)) {
-            $request = new HTTP_Request();
+            $request = new HTTP_Request2();
         }
         $this->setRequest($request);
 
     }
 
-    public function setRequest(HTTP_Request $request) {
+    public function setRequest(HTTP_Request2 $request) {
         $this->request = $request;
     }
 
@@ -357,17 +357,20 @@ class Net_SMS_clickatell_http extends Net_SMS {
      */
     function _callURL($url)
     {
-        $options['method'] = 'GET';
-        $options['timeout'] = 5;
-        $options['allowRedirects'] = true;
+        /** @todo Shift to factory */
+        $this->request->setMethod('POST');
+        $this->request->setConfig('timeout', 5);
+        $this->request->setConfig('follow_redirects', true);
 
-        $http = new HTTP_Request($this->_base_url . $url, $options);
-        @$http->sendRequest();
-        if ($http->getResponseCode() != 200) {
-            return PEAR::raiseError(sprintf(_("Could not open %s."), $url));
+
+        $this->request->setURL($this->_base_url . $url);
+
+        $response = $this->request->send();
+        if ($response->getStatus() != 200) {
+            throw new Net_URL_Exception(sprintf(_("Could not open %s."), $url));
         }
 
-        return $http->getResponseBody();
+        return $response->getBody();
     }
 
 }
