@@ -6,7 +6,7 @@ class Net_SMS_generic_smppTest extends PHPUnit_Framework_TestCase {
 
 
     public function test() {
-        $driver = new Net_SMS_generic_smpp();
+        $driver = new Net_SMS_generic_smpp(null, new Net_SMPP_Client(null, null));
 
         $driver->send(array(
             'id' => 0,

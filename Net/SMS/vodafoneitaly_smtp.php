@@ -18,6 +18,19 @@
  */
 class Net_SMS_vodafoneitaly_smtp extends Net_SMS {
 
+    protected $mail;
+
+    /**
+     * Constructor.
+     *
+     * @param array $params  Parameters.
+     */
+    public function __construct($params, Mail $mail)
+    {
+        parent::__construct($params);
+        $this->mail = $mail;
+    }
+
     /**
      * An array of capabilities, so that the driver can report which operations
      * it supports and which it doesn't. Possible values are:<pre>
@@ -59,8 +72,7 @@ class Net_SMS_vodafoneitaly_smtp extends Net_SMS {
             $headers['From'] = $this->_params['user'];
             $to = $matches[2] . '@sms.vodafone.it';
 
-            $mailer = Mail::factory('mail');
-            $result = $mailer->send($to, $headers, $message['text']);
+            $result = $this->mail->send($to, $headers, $message['text']);
             if (is_a($result, 'PEAR_Error')) {
                 return array(0, $result->getMessage());
             } else {
@@ -120,21 +132,6 @@ class Net_SMS_vodafoneitaly_smtp extends Net_SMS {
         return array();
     }
 
-    /**
-     * Returns a string representation of an error code.
-     *
-     * @param integer $error  The error code to look up.
-     * @param string $text    An existing error text to use to raise a
-     *                        PEAR Error.
-     *
-     * @return mixed  A textual message corresponding to the error code or a
-     *                PEAR Error if passed an existing error text.
-     *
-     * @todo  Check which of these are actually required and trim down the
-     *        list.
-     */
-    function getError($error, $error_text = '')
-    {
-    }
+
 
 }

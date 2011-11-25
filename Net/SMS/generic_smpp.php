@@ -65,13 +65,10 @@ class Net_SMS_generic_smpp extends Net_SMS {
      *
      * @param array $params  Parameters.
      */
-    function __construct($params = null)
+    public function __construct($params, Net_SMPP_Client $client)
     {
         parent::__construct($params);
-        $this->_client = new Net_SMPP_Client($this->_params['host'], $this->_params['port']);
-        if (!is_null($this->_params['vendor'])) {
-            Net_SMPP::setVendor($this->_params['vendor']);
-        }
+        $this->_client = $client;
     }
 
     /**

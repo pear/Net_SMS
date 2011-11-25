@@ -19,13 +19,64 @@ class Net_SMS_Factory {
     {
         include_once 'Net/SMS/' . $driver . '.php';
         $class = 'Net_SMS_' . $driver;
+
         if (class_exists($class)) {
-            $sms = new $class($params);
-        } else {
-            throw new Net_SMS_Exception(sprintf(_("Class definition of %s not found."), $driver));
+            switch ($class) {
+                case 'Net_SMS_textmagic_http':
+                    if (!extension_loaded('json')) {
+                        throw new InvalidArgumentException("JSON extenstion isn't loaded!");
+                    }
+                    return new Net_SMS_textmagic_http($params, new HTTP_Request2());
+
+                case 'Net_SMS_clickatell_http':
+                    return new Net_SMS_clickatell_http($params, new HTTP_Request2());
+
+                case 'Net_SMS_textmagic_http':
+                    return new Net_SMS_textmagic_http($params, new HTTP_Request2());
+
+                case 'Net_SMS_sms2email_http':
+                    return new Net_SMS_textmagic_http($params, new HTTP_Request2());
+
+                case 'Net_SMS_generic_smtp':
+                   if (!isset($params['mailBackend']) || !isset($params['mailParams'])) {
+                        throw new InvalidArgumentException("You must specify a mailBackend and mailParams as sperate parameters");
+                    }
+
+                    require_once 'Mail.php';
+                    $m = Mail::factory($params['mailBackend'],
+                                        $params['mailParams']);
+
+                    return new Net_SMS_generic_smtp($params, $m);
+
+                case 'Net_SMS_vodafoneitaly_smtp':
+                   if (!isset($params['mailBackend']) || !isset($params['mailParams'])) {
+                        throw new InvalidArgumentException("You must specify a mailBackend and mailParams as sperate parameters");
+                    }
+                    require_once 'Mail.php';
+                    $m = Mail::factory($params['mailBackend'],
+                                        $params['mailParams']);
+
+                    return new Net_SMS_vodafoneitaly_smtp($params, $m);
+
+                case 'Net_SMS_generic_smpp':
+                    if (!isset($params['host']) || !isset($params['port'])) {
+                        throw new InvalidArgumentException("You must specify a host and port as sperate parameters");
+                    }
+                    $client = new Net_SMPP_Client($params['host'], $params['port']);
+
+                    if (isset($params['vendor'])) {
+                        /** @todo Assess if this is actually beneficial */
+                        Net_SMPP::setVendor($params['vendor']);
+                    }
+
+                    return new Net_SMS_generic_smpp($params, $client);
+
+                default:
+                    return new $class($params);
+            }
         }
 
-        return $sms;
+        throw new Net_SMS_Exception(sprintf(_("Class definition of %s not found."), $driver));
     }
 
     /**

@@ -32,7 +32,7 @@ class Net_SMS {
      *
      * @param array $params  Any parameters needed for this gateway driver.
      */
-    public function __construct($params = null)
+    public function __construct($params)
     {
         $this->_params = $params;
     }
@@ -206,5 +206,22 @@ class Net_SMS {
      */
     protected function _send($message, $to) {
         return array();
+    }
+
+    /**
+     * Returns a string representation of an error code.
+     *
+     * @param integer $error  The error code to look up.
+     * @param string $text    An existing error text to use to raise a
+     *                        PEAR Error.
+     *
+     * @return mixed  A textual message corresponding to the error code or a
+     *                PEAR Error if passed an existing error text.
+     *
+     * @todo  Check which of these are actually required and trim down the
+     *        list.
+     */
+    public function getError($error, $error_text = '')
+    {
     }
 }

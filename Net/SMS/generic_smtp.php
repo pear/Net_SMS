@@ -20,6 +20,19 @@
  */
 class Net_SMS_generic_smtp extends Net_SMS {
 
+    protected $mail;
+
+    /**
+     * Constructor.
+     *
+     * @param array $params  Parameters.
+     */
+    public function __construct($params, Mail $mail)
+    {
+        parent::__construct($params);
+        $this->mail = $mail;
+    }
+
     /**
      * Capabilities of this driver.
      *
@@ -123,17 +136,13 @@ class Net_SMS_generic_smtp extends Net_SMS {
      */
     function _send($message, $to)
     {
-        require_once 'Mail.php';
-        $m = Mail::factory($this->_params['mailBackend'],
-                            $this->_params['mailParams']);
-
         if (isset($message['carrier'])) {
             $dest = $this->_getDest($to, $message['carrier']);
         } else {
             $dest = $this->_getDest($to);
         }
 
-        $res = $m->send($dest, $this->_params['mailHeaders'], $message['text']);
+        $res = $this->mail->send($dest, $this->_params['mailHeaders'], $message['text']);
         if (PEAR::isError($res)) {
             return array(0, $res->getMessage());
         } else {

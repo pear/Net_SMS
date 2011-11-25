@@ -6,7 +6,7 @@ class Net_SMSTest extends PHPUnit_Framework_TestCase {
 
 
     public function test() {
-        $driver = new Net_SMS();
+        $driver = new Net_SMS(array());
 
         try {
             $driver->send(null);

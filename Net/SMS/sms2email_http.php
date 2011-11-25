@@ -29,13 +29,9 @@ class Net_SMS_sms2email_http extends Net_SMS {
 
     protected $request;
 
-    public function __construct($params = null, HTTP_Request2 $request = null)
+    public function __construct($params, HTTP_Request2 $request)
     {
         parent::__construct($params);
-        /** @todo Shift to factory */
-        if (empty($request)) {
-            $request = new HTTP_Request2();
-        }
         $this->setRequest($request);
     }
 
