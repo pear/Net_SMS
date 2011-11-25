@@ -30,8 +30,7 @@
         </exec>
 
         <exec dir="${basedir}" executable="svn">
-            <!-- todo: update this when the dir structure is fixed -->
-            <arg line="export --force https://svn.php.net/repository/pear/packages/Net_SMPP_Client/trunk lib/Net/SMPP" />
+            <arg line="export --force https://svn.php.net/repository/pear/packages/Net_SMPP_Client/trunk lib/" />
         </exec>
 
         <exec dir="${basedir}" executable="svn">
