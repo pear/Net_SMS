@@ -1,4 +1,5 @@
 <?php
+require_once 'HTTP/Request2.php';
 
 /**
  * Net_SMS_textmagic_http Class implements the HTTP API for accessing the
@@ -21,12 +22,12 @@ class Net_SMS_textmagic_http extends Net_SMS
 
     protected $request;
 
-    public function __construct($params = null, HTTP_Request $request = null)
+    public function __construct($params = null, HTTP_Request2 $request = null)
     {
         parent::__construct($params);
         /** @todo Shift to factory */
         if (empty($request)) {
-            $request = new HTTP_Request();
+            $request = new HTTP_Request2();
         }
         $this->setRequest($request);
 
@@ -36,7 +37,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         }
     }
 
-    public function setRequest(HTTP_Request $request) {
+    public function setRequest(HTTP_Request2 $request) {
         $this->request = $request;
     }
 
@@ -530,23 +531,25 @@ class Net_SMS_textmagic_http extends Net_SMS
      */
     function _callURL($url)
     {
-        $options['method']         = 'POST';
-        $options['timeout']        = 5;
-        $options['allowRedirects'] = true;
+        /** @todo Shift to factory */
+        $this->request->setMethod('POST');
+        $this->request->setConfig('timeout', 5);
+        $this->request->setConfig('follow_redirects', true);
 
-        $http = new HTTP_Request($this->_base_url . $url, $options);
+
+        $this->request->setURL($this->_base_url . $url);
 
         /* Add the authentication values to POST. */
-        $http->addPostData('username', $this->_params['user']);
-        $http->addPostData('password', $this->_params['password']);
+        $this->request->addPostParameter('username', $this->_params['user']);
+        $this->request->addPostParameter('password', $this->_params['password']);
 
 
-        @$http->sendRequest();
-        if ($http->getResponseCode() != 200) {
-            return PEAR::raiseError(sprintf(_("Could not open %s."), $url));
+        $response = $http->send();
+        if ($response->getStatus() != 200) {
+            throw new Net_URL_Exception(sprintf(_("Could not open %s."), $url));
         }
 
-        return json_decode($http->getResponseBody(), true);
+        return json_decode($response->getBody(), true);
     }
 
 }
