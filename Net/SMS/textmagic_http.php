@@ -522,12 +522,6 @@ class Net_SMS_textmagic_http extends Net_SMS
      */
     function _callURL($url)
     {
-        /** @todo Shift to factory */
-        $this->request->setMethod('POST');
-        $this->request->setConfig('timeout', 5);
-        $this->request->setConfig('follow_redirects', true);
-
-
         $this->request->setURL($this->_base_url . $url);
 
         /* Add the authentication values to POST. */

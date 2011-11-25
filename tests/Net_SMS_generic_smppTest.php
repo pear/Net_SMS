@@ -10,7 +10,7 @@ class Net_SMS_generic_smppTest extends PHPUnit_Framework_TestCase {
 
         $driver->send(array(
             'id' => 0,
-            'to' => array(), 
+            'to' => array("hi"), 
             'text' => 'hi'
         ));
     }

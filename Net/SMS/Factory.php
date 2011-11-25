@@ -26,16 +26,33 @@ class Net_SMS_Factory {
                     if (!extension_loaded('json')) {
                         throw new InvalidArgumentException("JSON extenstion isn't loaded!");
                     }
-                    return new Net_SMS_textmagic_http($params, new HTTP_Request2());
+
+                    $request = new HTTP_Request2();
+                    $request->setMethod('POST');
+                    $request->setConfig('timeout', 5);
+                    $request->setConfig('follow_redirects', true);
+                    return new Net_SMS_textmagic_http($params, $request);
 
                 case 'Net_SMS_clickatell_http':
-                    return new Net_SMS_clickatell_http($params, new HTTP_Request2());
+                    $request = new HTTP_Request2();
+                    $request->setMethod('POST');
+                    $request->setConfig('timeout', 5);
+                    $request->setConfig('follow_redirects', true);
+                    return new Net_SMS_clickatell_http($params, $request);
 
                 case 'Net_SMS_textmagic_http':
-                    return new Net_SMS_textmagic_http($params, new HTTP_Request2());
+                    $request = new HTTP_Request2();
+                    $request->setMethod('POST');
+                    $request->setConfig('timeout', 5);
+                    $request->setConfig('follow_redirects', true);
+                    return new Net_SMS_textmagic_http($params, $request);
 
                 case 'Net_SMS_sms2email_http':
-                    return new Net_SMS_textmagic_http($params, new HTTP_Request2());
+                    $request = new HTTP_Request2();
+                    $request->setMethod('POST');
+                    $request->setConfig('timeout', 5);
+                    $request->setConfig('follow_redirects', true);
+                    return new Net_SMS_textmagic_http($params, $request);
 
                 case 'Net_SMS_generic_smtp':
                    if (!isset($params['mailBackend']) || !isset($params['mailParams'])) {
