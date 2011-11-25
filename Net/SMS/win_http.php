@@ -26,6 +26,23 @@ class Net_SMS_win_http extends Net_SMS {
 
     var $_base_url = 'gateway3.go2mobile.net:10030/gateway/v3/gateway.aspx';
 
+    protected $request;
+
+    public function __construct($params = null, HTTP_Request $request = null)
+    {
+        parent::__construct($params);
+        /** @todo Shift to factory */
+        if (empty($request)) {
+            $request = new HTTP_Request();
+        }
+        $this->setRequest($request);
+
+    }
+
+    public function setRequest(HTTP_Request $request) {
+        $this->request = $request;
+    }
+
     /**
      * An array of capabilities, so that the driver can report which operations
      * it supports and which it doesn't. Possible values are:<pre>
@@ -60,7 +77,7 @@ class Net_SMS_win_http extends Net_SMS {
      * @return array  An array with the success status and additional
      *                information.
      */
-    function _send($message, $to)
+    protected function _send($message, $to)
     {
         /* Start the XML. */
         $xml = '<SMSMESSAGE><TEXT>' . $message['text'] . '</TEXT>';
@@ -137,7 +154,7 @@ class Net_SMS_win_http extends Net_SMS {
      *
      * @return array  Array of driver info.
      */
-    function getInfo()
+    public function getInfo()
     {
         return array(
             'name' => _("WIN via HTTP"),
@@ -153,7 +170,7 @@ class Net_SMS_win_http extends Net_SMS {
      *
      * @return array  Array of required parameters.
      */
-    function getParams()
+    public function getParams()
     {
         $params = array();
         $params['user']     = array('label' => _("Username"), 'type' => 'text');
@@ -168,7 +185,7 @@ class Net_SMS_win_http extends Net_SMS {
      *
      * @return array  Array of parameters that can be set as default.
      */
-    function getDefaultSendParams()
+    public function getDefaultSendParams()
     {
         $params = array();
         $params['from'] = array(
@@ -191,7 +208,7 @@ class Net_SMS_win_http extends Net_SMS {
      * @todo  Would be nice to use a time/date setup rather than minutes from
      *        now for the delivery time. Upload field for ringtones/logos?
      */
-    function getSendParams($params)
+    public function getSendParams($params)
     {
         if (empty($params['from'])) {
             $params['from'] = array(
@@ -221,7 +238,7 @@ class Net_SMS_win_http extends Net_SMS {
      * @todo  Check which of these are actually required and trim down the
      *        list.
      */
-    function getError($error, $error_text = '')
+    public function getError($error, $error_text = '')
     {
         $error = trim($error);
 
@@ -232,9 +249,8 @@ class Net_SMS_win_http extends Net_SMS {
 
         if (empty($error_text)) {
             return $errors[$error];
-        } else {
-            return PEAR::raiseError(sprintf($error_text, $errors[$error]));
         }
+        throw new Net_SMS_Exception(sprintf($error_text, $errors[$error]));
     }
 
     /**
@@ -246,7 +262,7 @@ class Net_SMS_win_http extends Net_SMS {
      *
      * @return mixed  The response on success or PEAR Error on failure.
      */
-    function _post($xml)
+    protected function _post($xml)
     {
         $options['method'] = 'POST';
         $options['timeout'] = 5;
@@ -265,7 +281,7 @@ class Net_SMS_win_http extends Net_SMS {
         $http->addPostData('WIN_XML', $xml);
         @$http->sendRequest();
         if ($http->getResponseCode() != 200) {
-            return PEAR::raiseError(sprintf(_("Could not open %s."), $this->_base_url));
+            throw new Net_SMS_Exception(sprintf(_("Could not open %s."), $this->_base_url));
         }
 
         return $http->getResponseBody();

@@ -26,6 +26,23 @@ class Net_SMS_sms2email_http extends Net_SMS {
 
     var $_base_url = 'horde.sms2email.com/horde/';
 
+
+    protected $request;
+
+    public function __construct($params = null, HTTP_Request $request = null)
+    {
+        parent::__construct($params);
+        /** @todo Shift to factory */
+        if (empty($request)) {
+            $request = new HTTP_Request();
+        }
+        $this->setRequest($request);
+    }
+
+    public function setRequest(HTTP_Request $request) {
+        $this->request = $request;
+    }
+
     /**
      * An array of capabilities, so that the driver can report which
      * operations it supports and which it doesn't. Possible values are:<pre>
