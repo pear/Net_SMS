@@ -19,10 +19,10 @@ class Net_SMS_textmagic_http extends Net_SMS
 {
     var $_base_url = 'https://www.textmagic.com/app/api?';
 
-    function Net_SMS_textmagic_http($params)
+    function __construct($params)
     {
 
-        parent::Net_SMS($params);
+        parent::__construct($params);
 
         if (!extension_loaded('json')) {
             die ("JSON extenstion isn't loaded!");
@@ -526,7 +526,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         if (!@include_once 'HTTP/Request.php') {
             return PEAR::raiseError(_("Missing PEAR package HTTP_Request."));
         }
-        $http = &new HTTP_Request($this->_base_url . $url, $options);
+        $http = new HTTP_Request($this->_base_url . $url, $options);
 
         /* Add the authentication values to POST. */
         $http->addPostData('username', $this->_params['user']);

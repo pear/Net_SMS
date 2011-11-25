@@ -124,7 +124,7 @@ class Net_SMS_generic_smtp extends Net_SMS {
     function _send($message, $to)
     {
         require_once 'Mail.php';
-        $m = &Mail::factory($this->_params['mailBackend'],
+        $m = Mail::factory($this->_params['mailBackend'],
                             $this->_params['mailParams']);
 
         if (isset($message['carrier'])) {

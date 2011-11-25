@@ -284,7 +284,7 @@ class Net_SMS {
      * @return Net_SMS  The newly created concrete Gateway instance or false on
      *                  an error.
      */
-    function &factory($driver, $params = array())
+    function factory($driver, $params = array())
     {
         include_once 'Net/SMS/' . $driver . '.php';
         $class = 'Net_SMS_' . $driver;
@@ -304,7 +304,7 @@ class Net_SMS {
      * It will only create a new instance if no Net_SMS instance with the same
      * parameters currently exists.
      *
-     * This method must be invoked as: $var = &Net_SMS::singleton()
+     * This method must be invoked as: $var = Net_SMS::singleton()
      *
      * @param string $driver  The type of concrete Net_SMS subclass to return.
      *                        The is based on the gateway driver ($driver).
@@ -315,7 +315,7 @@ class Net_SMS {
      *
      * @return mixed  The created concrete Net_SMS instance, or false on error.
      */
-    function &singleton($driver, $params = array())
+    function singleton($driver, $params = array())
     {
         static $instances;
         if (!isset($instances)) {

@@ -6,7 +6,7 @@
 /**
  * HTTP_Request class.
  */
-include_once 'HTTP/Request.php';
+require_once 'HTTP/Request.php';
 
 /**
  * Net_SMS_sms2email_http Class implements the HTTP API for accessing the

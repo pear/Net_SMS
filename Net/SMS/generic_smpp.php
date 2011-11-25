@@ -1,6 +1,5 @@
 <?php
-
-include_once 'Net/SMPP/Client.php';
+require_once 'Net/SMPP/Client.php';
 
 /**
  * SMPP based SMS driver.
@@ -66,10 +65,10 @@ class Net_SMS_generic_smpp extends Net_SMS {
      *
      * @param array $params  Parameters.
      */
-    function Net_SMS_generic_smpp($params = null)
+    function __construct($params = null)
     {
-        parent::Net_SMS($params);
-        $this->_client =& new Net_SMPP_Client($this->_params['host'], $this->_params['port']);
+        parent::__construct($params);
+        $this->_client = new Net_SMPP_Client($this->_params['host'], $this->_params['port']);
         if (!is_null($this->_params['vendor'])) {
             Net_SMPP::setVendor($this->_params['vendor']);
         }
@@ -121,7 +120,7 @@ class Net_SMS_generic_smpp extends Net_SMS {
      */
     function _send($message, $to)
     {
-        $pdu =& Net_SMPP::PDU('submit_sm', $this->_params['submitParams']);
+        $pdu = Net_SMPP::PDU('submit_sm', $this->_params['submitParams']);
         $pdu->destination_addr = $to;
         $pdu->short_message = $message['text'];
         if (count($message) > 1) {
@@ -132,7 +131,7 @@ class Net_SMS_generic_smpp extends Net_SMS {
             unset($v);
         }
 
-        $res =& $this->_client->sendPDU($pdu);
+        $res = $this->_client->sendPDU($pdu);
 
         // Error sending?
         if ($res === false) {
@@ -169,7 +168,7 @@ class Net_SMS_generic_smpp extends Net_SMS {
         }
 
         if ($this->_client->state == NET_SMPP_CLIENT_STATE_OPEN) {
-            $resp =& $this->_client->bind($this->_params['bindParams']);
+            $resp = $this->_client->bind($this->_params['bindParams']);
             if ($resp === false || (is_object($resp) && $resp->isError())) {
                 return false;
             }
