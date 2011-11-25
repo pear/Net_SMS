@@ -535,7 +535,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         $this->request->addPostParameter('password', $this->_params['password']);
 
 
-        $response = $http->send();
+        $response = $this->request->send();
         if ($response->getStatus() != 200) {
             throw new Net_URL_Exception(sprintf(_("Could not open %s."), $url));
         }
