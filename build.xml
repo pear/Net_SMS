@@ -24,11 +24,23 @@
 		<mkdir dir="${basedir}/build/coverage"/>
 		<mkdir dir="${basedir}/build/logs"/>
 		<mkdir dir="${basedir}/build/pdepend"/>
+
+        <exec dir="${basedir}" executable="svn">
+            <arg line="export -f https://svn.php.net/repository/pear/packages/Net_SMPP/trunk lib/" />
+        </exec>
+
+        <exec dir="${basedir}" executable="svn">
+            <arg line="export -f https://svn.php.net/repository/pear/packages/Net_SMPP_Client/trunk lib/" />
+        </exec>
+
+        <exec dir="${basedir}" executable="svn">
+            <arg line="export -f https://svn.php.net/repository/pear/packages/HTTP_Request2/trunk lib/" />
+        </exec>
 	</target>
 
 	<target name="phpunit">
 		<exec dir="${basedir}" executable="${phpunit.bin}" failonerror="true">
-			<arg line="."/>
+			<arg line="--include-path lib --coverage-html build/coverage/ --coverage-clover build/logs/clover.xml --log-junit build/logs/junit.xml tests/"/>
 		</exec>
 	</target>
 
