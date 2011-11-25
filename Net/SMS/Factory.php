@@ -56,7 +56,7 @@ class Net_SMS_Factory {
 
                 case 'Net_SMS_generic_smtp':
                    if (!isset($params['mailBackend']) || !isset($params['mailParams'])) {
-                        throw new InvalidArgumentException("You must specify a mailBackend and mailParams as sperate parameters");
+                        throw new InvalidArgumentException("You must specify a mailBackend, mailHeaders and mailParams as sperate parameters. mailHeaders may be an empty array.");
                     }
 
                     require_once 'Mail.php';

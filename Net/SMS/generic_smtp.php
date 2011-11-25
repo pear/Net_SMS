@@ -136,11 +136,15 @@ class Net_SMS_generic_smtp extends Net_SMS {
      */
     function _send($message, $to)
     {
-        if (isset($message['carrier'])) {
-            $dest = $this->_getDest($to, $message['carrier']);
-        } else {
-            $dest = $this->_getDest($to);
+        $carrier = null;
+        if (isset($this->_params['carrier'])) {
+            $carrier = $this->_params['carrier'];
         }
+        if (isset($message['carrier'])) {
+            $carrier = $message['carrier'];
+        }
+
+        $dest = $this->_getDest($to, $carrier);
 
         $res = $this->mail->send($dest, $this->_params['mailHeaders'], $message['text']);
         if (PEAR::isError($res)) {
@@ -157,9 +161,12 @@ class Net_SMS_generic_smtp extends Net_SMS {
      *
      * @return string  Destination address.
      */
-    function _getDest($phone, $carrier = null)
+    function _getDest($phone, $carrier)
     {
-        $carrier = is_null($carrier) ? $this->_params['carrier'] : $carrier;
+        if (!isset($this->_carriers[$carrier])) {
+            throw new InvalidArgumentException("Unknown carrier mapping: " . $carrier);
+        }
+
         return sprintf($this->_carriers[$carrier],
                        preg_replace('/[^0-9]/', '', $phone));
     }
