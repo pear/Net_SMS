@@ -297,37 +297,4 @@ class Net_SMS {
         return $sms;
     }
 
-    /**
-     * Attempts to return a reference to a concrete Net_SMS instance based on
-     * $driver.
-     *
-     * It will only create a new instance if no Net_SMS instance with the same
-     * parameters currently exists.
-     *
-     * This method must be invoked as: $var = Net_SMS::singleton()
-     *
-     * @param string $driver  The type of concrete Net_SMS subclass to return.
-     *                        The is based on the gateway driver ($driver).
-     *                        The code is dynamically included.
-     *
-     * @param array $params  A hash containing any additional configuration or
-     *                       connection parameters a subclass might need.
-     *
-     * @return mixed  The created concrete Net_SMS instance, or false on error.
-     */
-    function singleton($driver, $params = array())
-    {
-        static $instances;
-        if (!isset($instances)) {
-            $instances = array();
-        }
-
-        $signature = serialize(array($driver, $params));
-        if (!isset($instances[$signature])) {
-            $instances[$signature] = &Net_SMS::factory($driver, $params);
-        }
-
-        return $instances[$signature];
-    }
-
 }
