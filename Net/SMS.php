@@ -176,5 +176,17 @@ class Net_SMS {
         }
     }
 
-    protected function _send() {}
+    /**
+     * This function does the actual sending of the message.
+     *
+     * @param array $message  The array containing the message and its send
+     *                        parameters.
+     * @param array $to       The recipients.
+     *
+     * @return array  An array with the success status and additional
+     *                information.
+     */
+    protected function _send($message, $to) {
+        return array();
+    }
 }
