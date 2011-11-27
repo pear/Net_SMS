@@ -34,7 +34,12 @@ class Net_SMS {
      */
     public function __construct($params)
     {
-        $this->_params = $params;
+        // Iterate over specified options, merging with defaults
+        if (!empty($params)) {
+            foreach ($params as $key => $value) {
+                $this->_params[$key] = $value;
+            }
+        }
     }
 
     /**
