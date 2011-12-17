@@ -38,6 +38,14 @@
         </exec>
 	</target>
 
+	<target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer">
+		<exec executable="phpcs" output="/dev/null">
+			<arg value="--report=checkstyle" />
+			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+			<arg path="${basedir}/Net/" />
+		</exec>
+	</target>
+
 	<target name="phpunit">
 		<exec dir="${basedir}" executable="${phpunit.bin}" failonerror="true">
 			<arg line=" -d error_reporting=30719 --include-path lib/HTTP_Request2:lib/Net_SMPP:lib/Net_SMPP_Client --coverage-html build/coverage/ --coverage-clover build/logs/clover.xml --log-junit build/logs/junit.xml tests/"/>
@@ -50,5 +58,5 @@
 		</exec>
 	</target>
 
-	<target name="build" depends="clean,phpunit,package"/>
+	<target name="build" depends="clean,phpunit,phpcs-ci,package"/>
 </project>
