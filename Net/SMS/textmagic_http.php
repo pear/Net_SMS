@@ -22,10 +22,15 @@ class Net_SMS_textmagic_http extends Net_SMS
 
     protected $request;
 
+    protected $username;
+    protected $password;
+
     public function __construct($params, HTTP_Request2 $request)
     {
         parent::__construct($params);
         $this->setRequest($request);
+        $this->setUsername(isset($params['user']) ? $params['user'] : null);
+        $this->setPassword(isset($params['password']) ? $params['password'] : null);
     }
 
     public function setRequest(HTTP_Request2 $request) {
@@ -525,8 +530,8 @@ class Net_SMS_textmagic_http extends Net_SMS
         $this->request->setURL($this->_base_url . $url);
 
         /* Add the authentication values to POST. */
-        $this->request->addPostParameter('username', $this->_params['user']);
-        $this->request->addPostParameter('password', $this->_params['password']);
+        $this->request->addPostParameter('username', $this->getUsername());
+        $this->request->addPostParameter('password', $this->getPassword());
 
 
         $response = $this->request->send();
@@ -537,4 +542,19 @@ class Net_SMS_textmagic_http extends Net_SMS
         return json_decode($response->getBody(), true);
     }
 
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
 }
