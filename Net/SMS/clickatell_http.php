@@ -31,11 +31,17 @@ class Net_SMS_clickatell_http extends Net_SMS {
 
     protected $request;
 
+    protected $username;
+    protected $password;
+    protected $api_id;
+
     public function __construct($params = null, HTTP_Request2 $request)
     {
         parent::__construct($params);
         $this->setRequest($request);
-
+        $this->setUsername(isset($params['user']) ? $params['user'] : null);
+        $this->setPassword(isset($params['password'] ? $params['password'] : null);
+	$this->setAPIId(isset($params['api_id'] : $params['api_id'] : null);
     }
 
     public function setRequest(HTTP_Request2 $request) {
@@ -78,12 +84,13 @@ class Net_SMS_clickatell_http extends Net_SMS {
         if (!empty($this->_session_id)) {
             return true;
         }
+        
 
         /* Set up the http authentication url. */
         $url = sprintf('auth?user=%s&password=%s&api_id=%s',
-                       urlencode($this->_params['user']),
-                       urlencode($this->_params['password']),
-                       $this->_params['api_id']);
+                       urlencode($this->getUsername()),
+                       urlencode($this->getPassword()),
+                       $this->getAPIId());
 
         /* Do the HTTP authentication and get the response. */
         $response = Net_SMS_clickatell_http::_callURL($url);
@@ -371,4 +378,27 @@ class Net_SMS_clickatell_http extends Net_SMS {
         return $response->getBody();
     }
 
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function getAPIId() {
+        return $this->api_id;
+    }
+
+    public function setAPIId($id) {
+        $this->api_id = $id;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
 }
