@@ -29,10 +29,15 @@ class Net_SMS_sms2email_http extends Net_SMS {
 
     protected $request;
 
+    protected $username;
+    protected $password;
+
     public function __construct($params, HTTP_Request2 $request)
     {
         parent::__construct($params);
         $this->setRequest($request);
+        $this->setUsername(isset($params['user']) ? $params['user'] : null);
+        $this->setPassword(isset($params['password']) ? $params['password'] : null);
     }
 
     public function setRequest(HTTP_Request2 $request) {
@@ -77,8 +82,8 @@ class Net_SMS_sms2email_http extends Net_SMS {
     {
         /* Set up the sending url. */
         $url = sprintf('postmsg.php?username=%s&password=%s&message=%s',
-                       urlencode($this->_params['user']),
-                       urlencode($this->_params['password']),
+                       urlencode($this->getUsername()),
+                       urlencode($this->getPassword()),
                        urlencode($message['text']));
 
         /* Check if source from is set. */
@@ -701,4 +706,20 @@ class Net_SMS_sms2email_http extends Net_SMS {
         return $response->getBody();
     }
 
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
 }
