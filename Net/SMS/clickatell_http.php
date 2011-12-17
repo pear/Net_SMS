@@ -40,8 +40,8 @@ class Net_SMS_clickatell_http extends Net_SMS {
         parent::__construct($params);
         $this->setRequest($request);
         $this->setUsername(isset($params['user']) ? $params['user'] : null);
-        $this->setPassword(isset($params['password'] ? $params['password'] : null);
-	$this->setAPIId(isset($params['api_id'] : $params['api_id'] : null);
+        $this->setPassword(isset($params['password']) ? $params['password'] : null);
+	$this->setAPIId(isset($params['api_id']) : $params['api_id'] : null);
     }
 
     public function setRequest(HTTP_Request2 $request) {
