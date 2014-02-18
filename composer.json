@@ -1,0 +1,44 @@
+{
+    "authors": [
+        {
+            "email": "mdjukic@horde.org",
+            "name": "Marko Djukic",
+            "role": "Lead"
+        },
+        {
+            "email": "jan@horde.org",
+            "name": "Jan Schneider",
+            "role": "Lead"
+        },
+        {
+            "email": "chuck@horde.org",
+            "name": "Chuck Hagenbuch",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Net": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/Net_SMS",
+    "include-path": [
+        "./"
+    ],
+    "license": "LGPL",
+    "name": "pear/net_sms",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Net_SMS",
+        "source": "https://github.com/pear/Net_SMS"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "pear/http_request2": "Install optionally via your project's composer.json"
+    }
+}
