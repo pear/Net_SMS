@@ -73,10 +73,13 @@ class Net_SMS_Factory {
                         throw new InvalidArgumentException("You must specify a mailBackend and mailParams as sperate parameters");
                     }
                     require_once 'Mail.php';
-                    $m = Mail::factory($params['mailBackend'],
-                                        $params['mailParams']);
+                    
+                    $m = new Mail();
 
-                    return new Net_SMS_vodafoneitaly_smtp($params, $m);
+                    return new Net_SMS_vodafoneitaly_smtp($params, $m->factory(
+                        $params['mailBackend'],
+                        $params['mailParams']
+                    ));
 
                 case 'Net_SMS_generic_smpp':
                     if (!isset($params['host']) || !isset($params['port'])) {
