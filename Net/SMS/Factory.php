@@ -60,10 +60,13 @@ class Net_SMS_Factory {
                     }
 
                     require_once 'Mail.php';
-                    $m = Mail::factory($params['mailBackend'],
-                                        $params['mailParams']);
+                    
+                    $m = new Mail();
 
-                    return new Net_SMS_generic_smtp($params, $m);
+                    return new Net_SMS_generic_smtp($params, $m->factory(
+                        $params['mailBackend'],
+                        $params['mailParams']
+                    ));
 
                 case 'Net_SMS_vodafoneitaly_smtp':
                    if (!isset($params['mailBackend']) || !isset($params['mailParams'])) {
