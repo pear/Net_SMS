@@ -72,7 +72,7 @@ class Net_SMS_textmagic_http extends Net_SMS
      * @return array  An array with the success status and additional
      *                information.
      */
-    function _send(&$message, $to)
+    protected function _send($message, $to) {
     {
 
         $unicode    = $this->_getUnicodeParam($message);
