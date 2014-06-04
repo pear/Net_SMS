@@ -24,8 +24,7 @@ require_once 'HTTP/Request2.php';
  */
 class Net_SMS_sms2email_http extends Net_SMS {
 
-    var $_base_url = 'horde.sms2email.com/horde/';
-
+    var $_base_url = 'gw1.sms2email.com/sms/';
 
     protected $request;
 
