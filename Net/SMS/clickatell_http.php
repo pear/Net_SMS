@@ -95,7 +95,7 @@ class Net_SMS_clickatell_http extends Net_SMS {
         /* Do the HTTP authentication and get the response. */
         $response = Net_SMS_clickatell_http::_callURL($url);
         if (is_a($response, 'PEAR_Error')) {
-            return PEAR::raiseError(sprintf(_("Authentication failed. %s"), $response->getMessage()));
+            throw new Net_SMS_Exception(sprintf(_("Authentication failed. %s"), $response->getMessage()));
         }
 
         /* Split up the response. */
@@ -346,9 +346,8 @@ class Net_SMS_clickatell_http extends Net_SMS {
 
         if (empty($error_text)) {
             return $errors[$error];
-        } else {
-            return PEAR::raiseError(sprintf($error_text, $errors[$error]));
         }
+        throw new Net_SMS_Exception(sprintf($error_text, $errors[$error]));
     }
 
     /**
