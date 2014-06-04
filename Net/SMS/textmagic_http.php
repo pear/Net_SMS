@@ -72,9 +72,8 @@ class Net_SMS_textmagic_http extends Net_SMS
      * @return array  An array with the success status and additional
      *                information.
      */
-    protected function _send($message, $to) {
+    protected function _send($message, $to) 
     {
-
         $unicode    = $this->_getUnicodeParam($message);
         $max_length = $this->_getMaxLengthParam($message);
 
@@ -486,7 +485,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         if (!empty($error_text)) {
             return $error_text;
         }
-        throw new Net_SMS_Exception($errors[$error], $error);   
+        throw new Net_SMS_Exception($errors[$error], $error);
     }
 
     /**
