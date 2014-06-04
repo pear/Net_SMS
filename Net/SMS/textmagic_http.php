@@ -495,7 +495,7 @@ class Net_SMS_textmagic_http extends Net_SMS
      * @todo  Check which of these are actually required and trim down the
      *        list.
      */
-    function getError($error_text = '', $error)
+    public function getError($error_text = '', $error)
     {
         /* An array of error codes returned by the gateway. */
         $errors = array(2  => _("Low balance"),
