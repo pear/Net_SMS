@@ -1,6 +1,5 @@
 <?php
 require_once 'Net/SMS/clickatell_http.php';
-require_once 'PHPUnit/Autoload.php';
 
 class Net_SMS_clickatell_httpTest extends PHPUnit_Framework_TestCase {
 

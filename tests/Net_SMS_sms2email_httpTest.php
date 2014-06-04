@@ -1,6 +1,5 @@
 <?php
 require_once 'Net/SMS/sms2email_http.php';
-require_once 'PHPUnit/Autoload.php';
 
 class Net_SMS_sms2email_httpTest extends PHPUnit_Framework_TestCase {
 

@@ -1,6 +1,5 @@
 <?php
 require_once 'Net/SMS/generic_smpp.php';
-require_once 'PHPUnit/Autoload.php';
 
 class Net_SMS_generic_smppTest extends PHPUnit_Framework_TestCase {
 

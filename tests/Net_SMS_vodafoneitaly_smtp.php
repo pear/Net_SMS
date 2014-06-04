@@ -1,6 +1,5 @@
 <?php
 require_once 'Net/SMS/vodafoneitaly_smtp.php';
-require_once 'PHPUnit/Autoload.php';
 
 class Net_SMS_vodafoneitaly_smtpTest extends PHPUnit_Framework_TestCase {
 
