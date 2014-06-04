@@ -89,7 +89,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         $response = $this->_callURL($url);
 
         if (is_a($response, 'PEAR_Error')) {
-              return PEAR::raiseError(sprintf(_("Send failed.")));
+            throw new Net_SMS_Exception(sprintf(_("Send failed.")));
         }
 
         $result = array();
@@ -175,7 +175,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         $response = $this->_callURL($url);
 
         if (is_a($response, 'PEAR_Error')) {
-              return PEAR::raiseError(sprintf(_("Send failed.")));
+              throw new Net_SMS_Exception(sprintf(_("Send failed.")));
         }
 
         $result = array();
@@ -230,7 +230,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         $response = $this->_callURL($url);
 
         if (is_a($response, 'PEAR_Error')) {
-              return PEAR::raiseError(sprintf(_("Send failed.")));
+            throw new Net_SMS_Exception(sprintf(_("Send failed.")));
         }
 
         $result = array();
@@ -273,7 +273,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         $response = $this->_callURL($url);
 
         if (is_a($response, 'PEAR_Error')) {
-              return PEAR::raiseError(sprintf(_("Send failed.")));
+            throw new Net_SMS_Exception(sprintf(_("Send failed.")));
         }
 
         $result = array();
@@ -333,11 +333,11 @@ class Net_SMS_textmagic_http extends Net_SMS
         $response = $this->_callURL($url);
 
         if (is_a($response, 'PEAR_Error')) {
-              return PEAR::raiseError(sprintf(_("Send failed.")));
+            throw new Net_SMS_Exception(sprintf(_("Send failed.")));
         }
 
         if (is_a($response, 'PEAR_Error')) {
-              return PEAR::raiseError(sprintf(_("Send failed.")));
+            throw new Net_SMS_Exception(sprintf(_("Send failed.")));
         }
 
         $result = array();
@@ -394,7 +394,7 @@ class Net_SMS_textmagic_http extends Net_SMS
         $response = $this->_callURL($url);
 
         if (is_a($response, 'PEAR_Error')) {
-            return PEAR::raiseError(sprintf(_("Send failed. %s"), $response['error_message']));
+            throw new Net_SMS_Exception(sprintf(_("Send failed. %s"), $response['error_message']));
         }
 
         if (!array_key_exists('error_code', $response)) {
@@ -513,9 +513,8 @@ class Net_SMS_textmagic_http extends Net_SMS
 
         if (!empty($error_text)) {
             return $error_text;
-        } else {
-            return PEAR::raiseError($errors[$error], $error);
         }
+        throw new Net_SMS_Exception($errors[$error], $error);   
     }
 
     /**
