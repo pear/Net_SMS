@@ -132,6 +132,9 @@ class Net_SMS {
                 $recipients = array_slice($message['to'], ($b * $max_per_batch), $max_per_batch);
                 $response = $this->_send($message, $recipients);
                 foreach ($recipients as $recipient) {
+                    if (empty($response[$recipient])) {
+                        continue;
+                    }
                     if ($response[$recipient][0] == 1) {
                         /* Message was sent, store remote id. */
                         $remote_id = $response[$recipient][1];
