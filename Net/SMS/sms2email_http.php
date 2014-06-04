@@ -306,7 +306,7 @@ class Net_SMS_sms2email_http extends Net_SMS {
         /* Check that the full address book list has been received. */
         $length = substr($response, 19);
         if (strlen($contacts_str) != $length) {
-            return PEAR::raiseError(_("Could not fetch complete address book."));
+            throw new Net_SMS_Exception(_("Could not fetch complete address book."));
         }
         $contacts_lines = explode("\n", $contacts_str);
         $contacts = array();
@@ -469,7 +469,7 @@ class Net_SMS_sms2email_http extends Net_SMS {
         /* Check that the full list of distribution lists has been received. */
         $length = substr($response, 22);
         if (strlen($lists_str) != $length) {
-            return PEAR::raiseError(_("Could not fetch the complete list of distribution lists."));
+            throw new Net_SMS_Exception(_("Could not fetch the complete list of distribution lists."));
         }
         $lists_lines = explode("\n", $lists_str);
         $lists = array();
@@ -516,7 +516,7 @@ class Net_SMS_sms2email_http extends Net_SMS {
         /* Check that the full list of distribution lists has been received. */
         $length = substr($response, 22);
         if (strlen($list_str) != $length) {
-            return PEAR::raiseError(_("Could not fetch complete distribution list."));
+            throw new Net_SMS_Exception(_("Could not fetch complete distribution list."));
         }
         $list_str = trim($list_str);
         list($count, $numbers) = explode('","', $list_str);
@@ -672,9 +672,8 @@ class Net_SMS_sms2email_http extends Net_SMS {
 
         if (empty($error_text)) {
             return $errors[$error];
-        } else {
-            return PEAR::raiseError(sprintf($error_text, $errors[$error]));
         }
+        throw new Net_SMS_Exception(sprintf($error_text, $errors[$error]));
     }
 
     /**
