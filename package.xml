@@ -22,11 +22,11 @@
   <email>chuck@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2011-11-25</date>
- <time>12:31:46</time>
+ <date>2014-06-04</date>
+ <time>12:23:00</time>
  <version>
-  <release>0.2.0</release>
-  <api>0.2.0</api>
+  <release>0.2.1</release>
+  <api>0.2.1</api>
  </version>
  <stability>
   <release>beta</release>
@@ -34,20 +34,35 @@
  </stability>
  <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
  <notes>
-* Added generic SMPP driver (Ian Eure, Request #5101).
-* Fixed return values of the generic SMTP driver.
-* Add textmagic_http driver (loci.master@gmail.com, Request #8439).
+QA release
+
+Update sms2email driver
+Update textmagic driver
+Fix tests
+Update SMPP driver for 0.4.0+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <file baseinstalldir="/" md5sum="08e01f54b23b480397f1573242050b81" name="/Net/SMS.php" role="php" />
-   <file baseinstalldir="/" md5sum="9a0c4837a76b4caacfcbf4a3ee1cfffe" name="/Net/SMS/clickatell_http.php" role="php" />
-   <file baseinstalldir="/" md5sum="1f3b6bd8bc6702f2f2e9c3e002799868" name="/Net/SMS/generic_smpp.php" role="php" />
-   <file baseinstalldir="/" md5sum="16858aacab973baab6a627405ea12265" name="/Net/SMS/generic_smtp.php" role="php" />
-   <file baseinstalldir="/" md5sum="8b7eb584fc816930ac49de9109ae37ec" name="/Net/SMS/sms2email_http.php" role="php" />
-   <file baseinstalldir="/" md5sum="d787b0361103b8ffb71c0ff39f608e8e" name="/Net/SMS/textmagic_http.php" role="php" />
-   <file baseinstalldir="/" md5sum="17629600c83f93a2cf352604259865f3" name="/Net/SMS/vodafoneitaly_smtp.php" role="php" />
-   <file baseinstalldir="/" md5sum="8a8a9810bb001f009ca3a58b9337dea4" name="/Net/SMS/win_http.php" role="php" />
+   <file baseinstalldir="/" md5sum="9613cbb464300327c4ea8b9cd9e675fe" name="Net/SMS.php" role="php" />
+   <file baseinstalldir="/" md5sum="5cde9a14fa46c9ba28b856783d08901c" name="Net/SMS/clickatell_http.php" role="php" />
+   <file baseinstalldir="/" md5sum="d50c5cde86bc294a5bf267406d597013" name="Net/SMS/Exception.php" role="php" />
+   <file baseinstalldir="/" md5sum="f27cf7ddba383538fd5bb1d4e925fe72" name="Net/SMS/Factory.php" role="php" />
+   <file baseinstalldir="/" md5sum="e07a23f7d1e3d704b3752f7e96af92e4" name="Net/SMS/generic_smpp.php" role="php" />
+   <file baseinstalldir="/" md5sum="6d685005899f2927d23c2523c697b262" name="Net/SMS/generic_smtp.php" role="php" />
+   <file baseinstalldir="/" md5sum="32842fceeab6652667405c84abfd053f" name="Net/SMS/sms2email_http.php" role="php" />
+   <file baseinstalldir="/" md5sum="94a8bc68c364938b3d25728f1ac00c4b" name="Net/SMS/textmagic_http.php" role="php" />
+   <file baseinstalldir="/" md5sum="a768e0b7d1584ebf8afac9720306d2c3" name="Net/SMS/vodafoneitaly_smtp.php" role="php" />
+   <file baseinstalldir="/" md5sum="e96aaa1b9d302364fc36b3b03e538163" name="Net/SMS/win_http.php" role="php" />
+   <file baseinstalldir="/" md5sum="a33b02d584a612630e0b6d34b2bc376b" name="tests/Net_SMSFactoryTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="38c9dfa1e561b26eb2a553bf62a8ad0e" name="tests/Net_SMSTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="2060fe23bb91386789e83ed594120fcb" name="tests/Net_SMS_clickatell_httpTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="081bae1a07c3b4a91b505cbd1587a1f0" name="tests/Net_SMS_generic_smppTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="1f7499839addd371cf7eadfe1544e12c" name="tests/Net_SMS_generic_smtpTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="32c650cea21b93da865df57e823917c5" name="tests/Net_SMS_sms2email_httpTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="f18444d8249b7eba8a1780daef9a6152" name="tests/Net_SMS_textmagic_httpTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="62ad916e0ed468989ff132749c6bb12e" name="tests/Net_SMS_vodafoneitaly_smtp.php" role="test" />
+   <file baseinstalldir="/" md5sum="71685e1434a2c165df0570eee66eaf7f" name="tests/Net_SMS_win_httpTest.php" role="test" />
+   <file baseinstalldir="/" md5sum="dc5836be2c1d03eee4a4f6cde01b5c2a" name="README" role="data" />
   </dir>
  </contents>
  <dependencies>
@@ -56,7 +71,7 @@
     <min>5.2.0</min>
    </php>
    <pearinstaller>
-    <min>1.4.0b1</min>
+    <min>1.5.6</min>
    </pearinstaller>
    <extension>
     <name>gettext</name>
@@ -74,7 +89,7 @@
    <package>
     <name>Net_SMPP_Client</name>
     <channel>pear.php.net</channel>
-    <min>0.4.0</min>
+    <min>0.4.1</min>
    </package>
   </optional>
  </dependencies>
@@ -142,6 +157,26 @@ Added generic SMTP driver (Ian Eure).
 * Added generic SMPP driver (Ian Eure, Request #5101).
 * Fixed return values of the generic SMTP driver.
 * Add textmagic_http driver (loci.master@gmail.com, Request #8439).
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.1</release>
+    <api>0.2.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2014-06-04</date>
+   <license uri="http://www.gnu.org/copyleft/lesser.html">LGPL</license>
+   <notes>
+QA release
+
+Update sms2email driver
+Update textmagic driver
+Fix tests
+Update SMPP driver for 0.4.0+
    </notes>
   </release>
  </changelog>
